@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 
 import com.example.xyzreader.R;
+import com.example.xyzreader.Utils.Utils;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
 
@@ -184,5 +186,15 @@ public class ArticleDetailActivity extends AppCompatActivity implements LoaderMa
     private void animSetup() {
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.transition_article);
         this.getWindow().setEnterTransition(transition);
+    }
+
+    @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+
+        boolean isOnline = Utils.isOnline(this);
+        if (!isOnline) {
+            Snackbar.make(findViewById(R.id.coordinator_layout_detail), getString(R.string.no_internet), Snackbar.LENGTH_LONG).show();
+        }
     }
 }

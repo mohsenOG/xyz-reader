@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -30,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.xyzreader.R;
+import com.example.xyzreader.Utils.Utils;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
 import com.example.xyzreader.data.UpdaterService;
@@ -71,6 +73,11 @@ public class ArticleListActivity extends AppCompatActivity implements LoaderMana
 
         setSupportActionBar(mToolbar);
         getLoaderManager().initLoader(0, null, this);
+
+        // Show snackbar if no internet is available
+        if (!Utils.isOnline(this)) {
+            Snackbar.make(findViewById(R.id.coordinator_layout_detail), getString(R.string.no_internet), Snackbar.LENGTH_LONG).show();
+        }
 
         if (savedInstanceState == null) {
             refresh();

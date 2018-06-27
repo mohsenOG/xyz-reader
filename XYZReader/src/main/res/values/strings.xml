@@ -9,4 +9,6 @@
 
     <string name="up">Up</string>
 
+    <string name="no_internet">There is no internet connection. Please connect to internet and try again.</string>
+
 </resources>
