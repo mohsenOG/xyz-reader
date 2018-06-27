@@ -9,7 +9,9 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_article_list"
         android:layout_width="match_parent"
-        android:layout_height="112dp">
+        android:layout_height="112dp"
+        android:elevation="@dimen/elevation_appbar"
+        android:translationZ="@dimen/elevation_appbar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
