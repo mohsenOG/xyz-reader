@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ShareCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -131,6 +133,10 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         });
 
         bindViews();
+        if (mCursor != null) {
+            ViewCompat.setTransitionName(mPhotoView, mCursor.getString(ArticleLoader.Query.TITLE));
+        }
+        showPostponedTransitionAnimation();
         updateStatusBar();
         return mRootView;
     }
@@ -292,5 +298,16 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
         return mIsCard
                 ? (int) mPhotoContainerView.getTranslationY() + mPhotoView.getHeight() - mScrollY
                 : mPhotoView.getHeight() - mScrollY;
+    }
+
+    private void showPostponedTransitionAnimation() {
+        mPhotoView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mPhotoView.getViewTreeObserver().removeOnPreDrawListener(this);
+                getActivity().startPostponedEnterTransition();
+                return true;
+            }
+        });
     }
 }
